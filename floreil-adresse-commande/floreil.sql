@@ -13,7 +13,7 @@ CREATE TABLE Plante(
     floraison_Plante VARCHAR(45),
     floraisonParfumee_Plante BOOLEAN,
     idPrixQnty INTEGER(5),
-    idType BIGINT(5),
+    idType INTEGER(5),
     PRIMARY KEY(idPlante)
 ) ENGINE = InnoDB; DROP TABLE IF EXISTS
     PrixQnty;
@@ -60,19 +60,31 @@ CREATE TABLE Batiment(
 ) ENGINE = InnoDB; DROP TABLE IF EXISTS TYPE
     ;
 CREATE TABLE TYPE(
-    idType BIGINT(5) AUTO_INCREMENT NOT NULL,
+    idType INTEGER(5) AUTO_INCREMENT NOT NULL,
     resistanceFroid_Type BOOLEAN,
     resistanceFroidHaut_Type INTEGER(3),
     resistanceFroidBas_Type INTEGER(3),
     nom_Type_Type VARCHAR(45),
     PRIMARY KEY(idType)
 ) ENGINE = InnoDB; DROP TABLE IF EXISTS
+    Commande;
+CREATE TABLE Commande(
+    idCommande INTEGER(5) AUTO_INCREMENT NOT NULL,
+    numero_Commande INTEGER(5),
+    somme_Commande INTEGER(5),
+    PRIMARY KEY(idCommande)
+) ENGINE = InnoDB; DROP TABLE IF EXISTS
     utilisateur_acheter_plante;
 CREATE TABLE utilisateur_acheter_plante(
     idUtilisateur INTEGER(5) AUTO_INCREMENT NOT NULL,
     idPlante INTEGER(5) NOT NULL,
+    idCommande INTEGER(5) NOT NULL,
     user_qnty_acheter INTEGER(5),
-    PRIMARY KEY(idUtilisateur, idPlante)
+    PRIMARY KEY(
+        idUtilisateur,
+        idPlante,
+        idCommande
+    )
 ) ENGINE = InnoDB; DROP TABLE IF EXISTS
     appartenir_rue_ville;
 CREATE TABLE appartenir_rue_ville(
@@ -114,6 +126,8 @@ ALTER TABLE
     utilisateur_acheter_plante ADD CONSTRAINT FK_utilisateur_acheter_plante_idUtilisateur FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur);
 ALTER TABLE
     utilisateur_acheter_plante ADD CONSTRAINT FK_utilisateur_acheter_plante_idPlante FOREIGN KEY(idPlante) REFERENCES Plante(idPlante);
+ALTER TABLE
+    utilisateur_acheter_plante ADD CONSTRAINT FK_utilisateur_acheter_plante_idCommande FOREIGN KEY(idCommande) REFERENCES Commande(idCommande);
 ALTER TABLE
     appartenir_rue_ville ADD CONSTRAINT FK_appartenir_rue_ville_idRue FOREIGN KEY(idRue) REFERENCES Rue(idRue);
 ALTER TABLE
